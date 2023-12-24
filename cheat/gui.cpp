@@ -3,7 +3,7 @@
 #include "../imgui/imgui_impl_dx9.h"
 #include "../imgui/imgui_impl_win32.h"
 #include <thread>
-	extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND window, UINT message, WPARAM wideParameter, LPARAM longParameter);
+extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND window, UINT message, WPARAM wideParameter, LPARAM longParameter);
 
 namespace cheat {
 	long __stdcall WindowProcess(HWND window, UINT message, WPARAM wideParameter, LPARAM longParameter) {
@@ -38,18 +38,15 @@ namespace cheat {
 				rect.left += points.x - position.x;
 				rect.top += points.y - position.y;
 				if (position.x >= 0 && position.x <= WIDTH && position.y >= 0 && position.y <= 19) {
-					SetWindowPos(window, HWND_TOPMOST, rect.left, rect.top, 0, 0, SWP_SHOWWINDOW | SWP_NOSIZE | SWP_NOZORDER);
+					SetWindowPos(window, HWND_TOPMOST, rect.left, rect.top, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW | SWP_NOZORDER);
 				}
-
-
-
+				else {
+					SetWindowPos(window, HWND_TOPMOST, 0, 0, x, y, SWP_NOMOVE|SWP_SHOWWINDOW | SWP_NOZORDER);
+					WIDTH = x;
+					HEIGHT = y;
+				}
 			}
-
-
 		}return 0;
-
-
-
 		}
 		return DefWindowProcA(window, message, wideParameter, longParameter);
 	}
@@ -68,7 +65,8 @@ namespace cheat {
 		windowClass.lpszClassName = className;
 		windowClass.hIconSm = 0;
 		RegisterClassExA(&windowClass);
-		window = CreateWindowA(className, windowName, WS_POPUP, 100, 100, WIDTH, HEIGHT, 0, 0, windowClass.hInstance, 0);
+		window = CreateWindowA(className, windowName, WS_POPUP | WS_VISIBLE, 100, 100, WIDTH, HEIGHT, 0, 0, windowClass.hInstance, 0);
+
 
 		ShowWindow(window, SW_SHOWDEFAULT);
 		UpdateWindow(window);

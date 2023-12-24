@@ -2,9 +2,11 @@
 
 #include<d3d9.h>
 namespace cheat {
-	constexpr int WIDTH = 315;
-	constexpr int HEIGHT = 400;
+	inline int WIDTH = 315;
+	inline int HEIGHT = 400;
+	inline int x = WIDTH, y = HEIGHT;
 	inline bool exit = true;
+
 
 	inline HWND window = nullptr;
 	inline WNDCLASSEXA windowClass = {};

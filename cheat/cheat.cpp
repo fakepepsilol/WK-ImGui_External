@@ -124,8 +124,9 @@ void UpdateValues(Addresses addresses) {
         std::this_thread::sleep_for(std::chrono::milliseconds(sleepTime));
     }
 }
+#define HOTKEY_ID 1
 int __stdcall wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR lpCmdLine, _In_ int nShowCmd) {
-
+    RegisterHotKey(NULL, HOTKEY_ID, MOD_ALT, VK_F4);
     MSG msg;
     ZeroMemory(&msg, sizeof(msg));
 
@@ -133,12 +134,12 @@ int __stdcall wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstanc
 
     Addresses addresses;
 
+    process = GetProcess();
     std::printf("The process id: %d \n", id);
     long long int offset = 0;
     const auto base = GetModuleAddress("windowkill-vulkan.exe");
     offset = getAddress(base);
 
-    process = GetProcess();
     if (!process){
         MessageBox(NULL, "Please start the game first!", "Game not found!", 0);
         return 0;
@@ -174,6 +175,7 @@ int __stdcall wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstanc
     cheat::CreateHWindow("WindowKill", "Cheat Menu Class");
     cheat::CreateDevice();
     cheat::CreateImGui();
+
     while (cheat::exit) {
         PeekMessage(&msg, NULL, 0, 0, PM_REMOVE);
         TranslateMessage(&msg);
@@ -185,9 +187,11 @@ int __stdcall wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstanc
 
         cheat::BeginRender();
         ImGui::SetNextWindowPos({ 0, 0 });
-        ImGui::SetNextWindowSize({ cheat::WIDTH, cheat::HEIGHT });
+        ImGui::SetNextWindowSize({ cheat::WIDTH * 1.0f, cheat::HEIGHT * 1.0f});
         ImGuiIO& io = ImGui::GetIO(); (void)io;
-        if (ImGui::Begin("WindowKill Hack", &cheat::exit, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove)) {
+        if (ImGui::Begin("WindowKill Hack", &cheat::exit, ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove)) {
+            cheat::x = ImGui::GetWindowWidth();
+            cheat::y = ImGui::GetWindowHeight();
             ImGui::SetNextItemWidth(100);
             ImGui::InputInt("Update time (milliseconds)", &sleepTime);
             ImGui::PushItemWidth(187);
@@ -231,18 +235,19 @@ int __stdcall wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstanc
             }
 
             ImGui::PopItemWidth();
-
+            //ImGui::Text("Width: %f\nHeight: %f", ImGui::GetWindowWidth(), ImGui::GetWindowHeight());
             ImGui::Text("Application average %.3f ms/frame (%.0f FPS)", 1000.0f / io.Framerate, io.Framerate);
         }
-        //MessageBox(NULL, cheat::Read(0x1FFEA3703D0), "Converted Integer to LPCSTR", MB_OK);
         ImGui::End();
         cheat::EndRender();
+        
+        
+        HWND foreground = GetForegroundWindow();
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
-        if (!process) {
-            cheat::DestroyImGui();
-            cheat::DestroyDevice();
-            cheat::DestroyHWindow();
+        if (!process || (GetAsyncKeyState(VK_MENU) & 0x8000) && (GetAsyncKeyState(VK_F4) & 0x8000) && foreground == cheat::window) {
+            cheat::exit = false;
         }
+
     }
     cheat::DestroyImGui();
     cheat::DestroyDevice();
