@@ -188,8 +188,10 @@ int __stdcall wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstanc
         cheat::BeginRender();
         ImGui::SetNextWindowPos({ 0, 0 });
         ImGui::SetNextWindowSize({ cheat::WIDTH * 1.0f, cheat::HEIGHT * 1.0f});
+        cheat::x = ImGui::GetWindowWidth();
+        cheat::y = ImGui::GetWindowHeight();
         ImGuiIO& io = ImGui::GetIO(); (void)io;
-        if (ImGui::Begin("WindowKill Hack", &cheat::exit, ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove)) {
+        if (ImGui::Begin("WindowKill Hack", &cheat::exit, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoMove)) {
             cheat::x = ImGui::GetWindowWidth();
             cheat::y = ImGui::GetWindowHeight();
             ImGui::SetNextItemWidth(100);

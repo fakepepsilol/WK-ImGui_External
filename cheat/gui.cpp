@@ -116,7 +116,7 @@ namespace cheat {
 	void cheat::CreateImGui() noexcept {
 		IMGUI_CHECKVERSION();
 		ImGui::CreateContext();
-		ImGuiIO io = ::ImGui::GetIO();
+		ImGuiIO& io = ::ImGui::GetIO();
 		io.IniFilename = NULL;
 		ImGui::StyleColorsDark();
 		ImGui_ImplWin32_Init(window);
