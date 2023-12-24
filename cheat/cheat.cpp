@@ -197,12 +197,12 @@ int __stdcall wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstanc
             ImGui::SetNextItemWidth(100);
             ImGui::InputInt("Update time (milliseconds)", &sleepTime);
             ImGui::PushItemWidth(187);
-            if (ImGui::InputInt("Money", &money)) Write(addresses.money, money);
+            if (ImGui::InputInt("Money", &money, 1, 100, lockMoney ? ImGuiInputTextFlags_ReadOnly : NULL)) Write(addresses.money, money);
             ImGui::SameLine();
             if (ImGui::Checkbox("Lock##money", &lockMoney)) {
                 startMoney = money;
             }
-            if (ImGui::InputInt("Stars", &stars)) Write(addresses.stars, stars);
+            if (ImGui::InputInt("Stars", &stars, 1, 100, lockStars ? ImGuiInputTextFlags_ReadOnly : NULL)) Write(addresses.stars, stars);
             ImGui::SameLine();
             if (ImGui::Checkbox("Lock##stars", &lockStars)) {
                 startStars = stars;
@@ -217,7 +217,7 @@ int __stdcall wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstanc
             if (ImGui::InputInt("Freezing", &freezing)) Write(addresses.freezing, freezing - 1);
             if (ImGui::InputInt("Piercing", &piercing)) Write(addresses.piercing, piercing - 1);
             if (ImGui::InputInt("Splash Damage", &splashDamage)) Write(addresses.splashDamage, splashDamage - 1);
-            if (ImGui::InputInt("Health", &health)) Write(addresses.health, health);
+            if (ImGui::InputInt("Health", &health, 1, 100, lockHealth ? ImGuiInputTextFlags_ReadOnly : NULL)) Write(addresses.health, health);
             ImGui::SameLine();
             if (ImGui::Checkbox("Lock##health", &lockHealth)) {
                 startHealth = health;

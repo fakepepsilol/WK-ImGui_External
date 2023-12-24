@@ -41,9 +41,11 @@ namespace cheat {
 					SetWindowPos(window, HWND_TOPMOST, rect.left, rect.top, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW | SWP_NOZORDER);
 				}
 				else {
-					SetWindowPos(window, HWND_TOPMOST, 0, 0, x, y, SWP_NOMOVE|SWP_SHOWWINDOW | SWP_NOZORDER);
-					WIDTH = x;
-					HEIGHT = y;
+					if (position.x > 10){
+						SetWindowPos(window, HWND_TOPMOST, 0, 0, x, y, SWP_NOMOVE|SWP_SHOWWINDOW | SWP_NOZORDER);
+						WIDTH = x;
+						HEIGHT = y;
+					}
 				}
 			}
 		}return 0;
