@@ -83,10 +83,10 @@ void cheat::UpdateValues(cheat::Addresses addresses) {
         homing = cheat::Read(addresses.homing) + 1;
         wealth = cheat::Read(addresses.wealth) + 1;
         wallPunch = cheat::Read(addresses.wallPunch) + 1;
-        maxHealth = cheat::Read(addresses.maxHealth) + 1;
         freezing = cheat::Read(addresses.freezing) + 1;
         piercing = cheat::Read(addresses.piercing) + 1;
         splashDamage = cheat::Read(addresses.splashDamage) + 1;
+        maxHealth = cheat::Read(addresses.maxHealth);
         health = cheat::Read(addresses.health);
         std::this_thread::sleep_for(std::chrono::milliseconds(sleepTime));
     }
@@ -128,10 +128,10 @@ int __stdcall wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstanc
     cheat::addresses.wealth = offset + 0x338;
     cheat::addresses.wallPunch = offset + 0x350;
     cheat::addresses.heal = offset + 0x368;
-    cheat::addresses.maxHealth = offset + 0x380;
     cheat::addresses.freezing = offset + 0x398;
     cheat::addresses.piercing = offset + 0x3B0;
     cheat::addresses.splashDamage = offset + 0x3C8;
+    cheat::addresses.maxHealth = offset + 0x458;
     cheat::addresses.health = offset + 0x470;
 
     // MessageBox(NULL, std::to_string(cheat::Read(cheat::addresses.health)).c_str(), "title", NULL);

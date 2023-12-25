@@ -269,10 +269,10 @@ void cheat::Render() noexcept
 	if (ImGui::InputInt("Homing", &homing)) Write(addresses.homing, homing - 1);
 	if (ImGui::InputInt("Wealth", &wealth)) Write(addresses.wealth, wealth - 1);
 	if (ImGui::InputInt("Wall Punch", &wallPunch)) Write(addresses.wallPunch, wallPunch - 1);
-	if (ImGui::InputInt("Max Health", &maxHealth)) Write(addresses.maxHealth, maxHealth - 1);
 	if (ImGui::InputInt("Freezing", &freezing)) Write(addresses.freezing, freezing - 1);
 	if (ImGui::InputInt("Piercing", &piercing)) Write(addresses.piercing, piercing - 1);
 	if (ImGui::InputInt("Splash Damage", &splashDamage)) Write(addresses.splashDamage, splashDamage - 1);
+	if (ImGui::InputInt("Max Health", &maxHealth)) Write(addresses.maxHealth, maxHealth);
 	if (ImGui::InputInt("Health", &health, 1, 100, lockHealth ? ImGuiInputTextFlags_ReadOnly : NULL)) Write(addresses.health, health);
 	ImGui::SameLine();
 	if (ImGui::Checkbox("Lock##health", &lockHealth)) {
