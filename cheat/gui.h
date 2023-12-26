@@ -50,7 +50,7 @@ namespace cheat
 	inline bool exit = true;
 	long long int Read(long long int address);
 	bool Write(long long int address, long long int var);
-	void UpdateValues(Addresses addresses);
+	void UpdateValues(Addresses* addresses);
 
 
 	constexpr int WIDTH = 310;

@@ -1,6 +1,5 @@
 #include<string>
 #include"gui.h"
-
 #include"../imgui/imgui.h"
 #include"../imgui/imgui_impl_dx9.h"
 #include"../imgui/imgui_impl_win32.h"
@@ -11,7 +10,6 @@ extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(
 	WPARAM wideParameter,
 	LPARAM longParameter
 );
-
 long __stdcall WindowProcess(
 	HWND window,
 	UINT message,
@@ -33,7 +31,7 @@ long __stdcall WindowProcess(
 	}return 0;
 
 	case WM_SYSCOMMAND: {
-		if ((wideParameter & 0xfff0) == SC_KEYMENU) // Disable ALT application menu
+		if ((wideParameter & 0xfff0) == SC_KEYMENU)
 			return 0;
 	}break;
 
@@ -42,7 +40,7 @@ long __stdcall WindowProcess(
 	}return 0;
 
 	case WM_LBUTTONDOWN: {
-		cheat::position = MAKEPOINTS(longParameter); // set click points
+		cheat::position = MAKEPOINTS(longParameter);
 	}return 0;
 
 	case WM_MOUSEMOVE: {
@@ -72,7 +70,7 @@ long __stdcall WindowProcess(
 	}return 0;
 
 	}
-
+    SetWindowPos(window, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 	DefWindowProc(window, message, wideParameter, longParameter);
 	return 1;
 }
@@ -181,6 +179,7 @@ void cheat::CreateImGui() noexcept
 	ImGuiIO& io = ::ImGui::GetIO();
 	io.IniFilename = NULL;
 
+
 	ImGui::StyleColorsDark();
 
 	ImGui_ImplWin32_Init(window);
@@ -207,7 +206,6 @@ void cheat::BeginRender() noexcept
 		}
 	}
 
-	// Start the Dear ImGui frame
 	ImGui_ImplDX9_NewFrame();
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
@@ -232,7 +230,6 @@ void cheat::EndRender() noexcept
 
 	const auto result = device->Present(0, 0, 0, 0);
 
-	// Handle loss of D3D9 device
 	if (result == D3DERR_DEVICELOST && device->TestCooperativeLevel() == D3DERR_DEVICENOTRESET)
 		ResetDevice();
 }

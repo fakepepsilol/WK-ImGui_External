@@ -14,16 +14,6 @@ HANDLE process = NULL;
 DWORD id = 0;
 
 
-
-
-
-bool cheat::Write(long long int address, long long int var) {
-    return WriteProcessMemory(process, (LPVOID)(address), &var, sizeof(long long int), 0);
-}
-
-
-
-
 uintptr_t GetModuleAddress(const char* moduleName) {
     MODULEENTRY32 entry;
     entry.dwSize = sizeof(MODULEENTRY32);
@@ -66,6 +56,9 @@ HANDLE GetProcess() {
     }
     return NULL;
 }
+bool cheat::Write(long long int address, long long int var) {
+    return WriteProcessMemory(process, (LPVOID)(address), &var, sizeof(long long int), 0);
+}
 long long int cheat::Read(long long int address) {
     long long int var = NULL;
     process = GetProcess();
@@ -93,12 +86,8 @@ void cheat::UpdateValues(cheat::Addresses* addresses) {
 }
 #define HOTKEY_ID 1
 int __stdcall wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR lpCmdLine, _In_ int nShowCmd) {
-
-
-
     MSG msg;
     ZeroMemory(&msg, sizeof(msg));
-
 
     cheat::lockMoney = false;
     cheat::lockStars = false;
@@ -110,7 +99,6 @@ int __stdcall wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstanc
 
 
     process = GetProcess();
-    std::printf("The process id: %d \n", id);
     long long int offset = 0;
     uintptr_t base = GetModuleAddress("windowkill-vulkan.exe");
     offset = getAddress(base);
@@ -140,13 +128,11 @@ int __stdcall wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstanc
         std::this_thread::sleep_for(std::chrono::milliseconds(60));
     }
 
-
     std::thread updateThread(cheat::UpdateValues, &cheat::addresses);
 
 
 
 
-    // create gui
     cheat::CreateHWindow("Cheat Menu");
     cheat::CreateDevice();
     cheat::CreateImGui();
@@ -164,7 +150,6 @@ int __stdcall wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstanc
         }
     }
 
-    // destroy gui
     cheat::DestroyImGui();
     cheat::DestroyDevice();
     cheat::DestroyHWindow();
