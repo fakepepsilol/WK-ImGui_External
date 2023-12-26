@@ -73,21 +73,21 @@ long long int cheat::Read(long long int address) {
     return var;
 }
 
-void cheat::UpdateValues(cheat::Addresses addresses) {
+void cheat::UpdateValues(cheat::Addresses* addresses) {
     while (true) {
-        money = cheat::Read(addresses.money);
-        stars = cheat::Read(addresses.stars);
-        speed = cheat::Read(addresses.speed) + 1;
-        fireRate = cheat::Read(addresses.fireRate) + 1;
-        multishot = cheat::Read(addresses.multishot) + 1;
-        homing = cheat::Read(addresses.homing) + 1;
-        wealth = cheat::Read(addresses.wealth) + 1;
-        wallPunch = cheat::Read(addresses.wallPunch) + 1;
-        freezing = cheat::Read(addresses.freezing) + 1;
-        piercing = cheat::Read(addresses.piercing) + 1;
-        splashDamage = cheat::Read(addresses.splashDamage) + 1;
-        maxHealth = cheat::Read(addresses.maxHealth);
-        health = cheat::Read(addresses.health);
+        money = cheat::Read(addresses->money);
+        stars = cheat::Read(addresses->stars);
+        speed = cheat::Read(addresses->speed) + 1;
+        fireRate = cheat::Read(addresses->fireRate) + 1;
+        multishot = cheat::Read(addresses->multishot) + 1;
+        homing = cheat::Read(addresses->homing) + 1;
+        wealth = cheat::Read(addresses->wealth) + 1;
+        wallPunch = cheat::Read(addresses->wallPunch) + 1;
+        freezing = cheat::Read(addresses->freezing) + 1;
+        piercing = cheat::Read(addresses->piercing) + 1;
+        splashDamage = cheat::Read(addresses->splashDamage) + 1;
+        maxHealth = cheat::Read(addresses->maxHealth);
+        health = cheat::Read(addresses->health);
         std::this_thread::sleep_for(std::chrono::milliseconds(sleepTime));
     }
 }
@@ -112,31 +112,36 @@ int __stdcall wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstanc
     process = GetProcess();
     std::printf("The process id: %d \n", id);
     long long int offset = 0;
-    const auto base = GetModuleAddress("windowkill-vulkan.exe");
+    uintptr_t base = GetModuleAddress("windowkill-vulkan.exe");
     offset = getAddress(base);
     if (!process) {
         MessageBox(NULL, "Please start the game first!", "Proccess not found!", 0);
         return 0;
     }
-    cheat::addresses.money = offset + 0x260;
-    cheat::addresses.stars = offset + 0x278;
-    cheat::addresses.restockCount = offset + 0x2A8;
-    cheat::addresses.speed = offset + 0x2D8;
-    cheat::addresses.fireRate = offset + 0x2F0;
-    cheat::addresses.multishot = offset + 0x308;
-    cheat::addresses.homing = offset + 0x320;
-    cheat::addresses.wealth = offset + 0x338;
-    cheat::addresses.wallPunch = offset + 0x350;
-    cheat::addresses.heal = offset + 0x368;
-    cheat::addresses.freezing = offset + 0x398;
-    cheat::addresses.piercing = offset + 0x3B0;
-    cheat::addresses.splashDamage = offset + 0x3C8;
-    cheat::addresses.maxHealth = offset + 0x458;
-    cheat::addresses.health = offset + 0x470;
+    while (cheat::addresses.health == 0x470 || cheat::addresses.health == NULL) {
+        offset = 0;
+        base = GetModuleAddress("windowkill-vulkan.exe");
+        offset = getAddress(base);
+        cheat::addresses.money = offset + 0x260;
+        cheat::addresses.stars = offset + 0x278;
+        cheat::addresses.restockCount = offset + 0x2A8;
+        cheat::addresses.speed = offset + 0x2D8;
+        cheat::addresses.fireRate = offset + 0x2F0;
+        cheat::addresses.multishot = offset + 0x308;
+        cheat::addresses.homing = offset + 0x320;
+        cheat::addresses.wealth = offset + 0x338;
+        cheat::addresses.wallPunch = offset + 0x350;
+        cheat::addresses.heal = offset + 0x368;
+        cheat::addresses.freezing = offset + 0x398;
+        cheat::addresses.piercing = offset + 0x3B0;
+        cheat::addresses.splashDamage = offset + 0x3C8;
+        cheat::addresses.maxHealth = offset + 0x458;
+        cheat::addresses.health = offset + 0x470;
+        std::this_thread::sleep_for(std::chrono::milliseconds(60));
+    }
 
-    // MessageBox(NULL, std::to_string(cheat::Read(cheat::addresses.health)).c_str(), "title", NULL);
 
-    std::thread updateThread(cheat::UpdateValues, cheat::addresses);
+    std::thread updateThread(cheat::UpdateValues, &cheat::addresses);
 
 
 
