@@ -31,8 +31,8 @@ uintptr_t GetModuleAddress(const char* moduleName) {
     return result;
 }
 long long int getAddress(long long int base) {
-    long long int offsets[6] = { 0x03453100, 0x348, 0x1C0, 0x10, 0x68, 0x28 };
-    for (int i = 0; i < 6; i++) {
+    long long int offsets[9] = { 0x034541E0, 0x310, 0x60, 0x220, 0x348, 0x1C0, 0x10, 0x68, 0x28};
+    for (int i = 0; i < 9; i++) {
         ReadProcessMemory(process, (LPCVOID)(base + offsets[i]), &base, sizeof(long long int), 0);
     }
     return base;
@@ -106,25 +106,25 @@ int __stdcall wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstanc
         MessageBox(NULL, "Please start the game first!", "Proccess not found!", 0);
         return 0;
     }
-    while (cheat::addresses.health == 0x470 || cheat::addresses.health == NULL) {
+    while (cheat::addresses.health == 0x488 || cheat::addresses.health == NULL) {
         offset = 0;
         base = GetModuleAddress("windowkill-vulkan.exe");
         offset = getAddress(base);
-        cheat::addresses.money = offset + 0x260;
-        cheat::addresses.stars = offset + 0x278;
-        cheat::addresses.restockCount = offset + 0x2A8;
-        cheat::addresses.speed = offset + 0x2D8;
-        cheat::addresses.fireRate = offset + 0x2F0;
-        cheat::addresses.multishot = offset + 0x308;
-        cheat::addresses.homing = offset + 0x320;
-        cheat::addresses.wealth = offset + 0x338;
-        cheat::addresses.wallPunch = offset + 0x350;
-        cheat::addresses.heal = offset + 0x368;
-        cheat::addresses.freezing = offset + 0x398;
-        cheat::addresses.piercing = offset + 0x3B0;
-        cheat::addresses.splashDamage = offset + 0x3C8;
-        cheat::addresses.maxHealth = offset + 0x458;
-        cheat::addresses.health = offset + 0x470;
+        cheat::addresses.money = offset + 0x278;
+        cheat::addresses.stars = offset + 0x290; ///wqaaaaaah
+        cheat::addresses.restockCount = offset + 0x2C0;
+        cheat::addresses.speed = offset + 0x2F0;
+        cheat::addresses.fireRate = offset + 0x308;
+        cheat::addresses.multishot = offset + 0x320;
+        cheat::addresses.homing = offset + 0x338;
+        cheat::addresses.wealth = offset + 0x350;
+        cheat::addresses.wallPunch = offset + 0x368;
+        cheat::addresses.heal = offset + 0x398;
+        cheat::addresses.freezing = offset + 0x3B0;
+        cheat::addresses.piercing = offset + 0x3C8;
+        cheat::addresses.splashDamage = offset + 0x3E0;
+        cheat::addresses.maxHealth = offset + 0x470;
+        cheat::addresses.health = offset + 0x488;
         std::this_thread::sleep_for(std::chrono::milliseconds(60));
     }
 
