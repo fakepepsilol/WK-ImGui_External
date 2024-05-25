@@ -87,7 +87,8 @@ void cheat::UpdateValues(cheat::Addresses* addresses) {
 #define HOTKEY_ID 1
 int __stdcall wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR lpCmdLine, _In_ int nShowCmd) {
     MSG msg;
-    ZeroMemory(&msg, sizeof(msg));
+    ZeroMemory(&msg, sizeof(msg)); 
+
 
     process = GetProcess();
     long long int offset = 0;
@@ -102,7 +103,7 @@ int __stdcall wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstanc
         base = GetModuleAddress("windowkill-vulkan.exe");
         offset = getAddress(base);
         cheat::addresses.money = offset + 0x278;
-        cheat::addresses.stars = offset + 0x290;
+        cheat::addresses.stars = offset + 0x290; 
         cheat::addresses.restockCount = offset + 0x2C0;
         cheat::addresses.speed = offset + 0x2F0;
         cheat::addresses.fireRate = offset + 0x308;
@@ -127,6 +128,8 @@ int __stdcall wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstanc
     cheat::CreateHWindow("Cheat Menu");
     cheat::CreateDevice();
     cheat::CreateImGui();
+
+
 
     while (cheat::isRunning && process)
     {

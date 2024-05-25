@@ -234,8 +234,158 @@ void cheat::EndRender() noexcept
 		ResetDevice();
 }
 
+ImVec4 hex2rgba(int hexValue, float opacity) {
+	double r = ((hexValue >> 16) & 0xFF) / 255.0;
+	double g = ((hexValue >> 8) & 0xFF) / 255.0;
+	double b = ((hexValue) & 0xFF) / 255.0;
+	return ImVec4((float)r, (float)g, (float)b, opacity);
+}
+void setTheme(int themeIndex, ImGuiStyle* style) {
+	int textColor = 0;
+	int backgroundColor = 0;
+	int primaryColor = 0;
+	int secondaryColor = 0;
+	int accentColor = 0;
+	switch (themeIndex) {
+	case 0:
+		textColor = 0xe5f3f3;
+		backgroundColor = 0x060e0e;
+		primaryColor = 0x9ad8d7;
+		secondaryColor = 0x297574;
+		accentColor = 0x60cdcb;
+		break;
+	case 1:
+		textColor = 0xfce3fd;
+		backgroundColor = 0x200222;
+		primaryColor = 0xe680f7;
+		secondaryColor = 0x971b0a;
+		accentColor = 0xf28b2d;
+		break;
+	case 2:
+		textColor = 0xecefe5;
+		backgroundColor = 0x12140b;
+		primaryColor = 0xc5d0a5;
+		secondaryColor = 0x5e6c35;
+		accentColor = 0xa2b864;
+		break;
+	case 3:
+		textColor = 0xf9e9ed;
+		backgroundColor = 0x18060a;
+		primaryColor = 0xe1899d;
+		secondaryColor = 0x848e24;
+		accentColor = 0x96d451;
+		break;
+	case 4:
+		textColor = 0xdafbdb;
+		backgroundColor = 0x010a02;
+		primaryColor = 0x7df28b;
+		secondaryColor = 0x3e10a1;
+		accentColor = 0xec42d9;
+		break;
+	case 5:
+		textColor = 0xf1e3e6;
+		backgroundColor = 0x1a0e0e;
+		primaryColor = 0xcfa1a6;
+		secondaryColor = 0x6f6738;
+		accentColor = 0x98ab5b;
+		break;
+	case 6:
+		textColor = 0xf0f1e5;
+		backgroundColor = 0x111109;
+		primaryColor = 0xcdcfa6;
+		secondaryColor = 0x3c7050;
+		accentColor = 0x65ab9d;
+		break;
+	case 7:
+		textColor = 0xd6fed8;
+		backgroundColor = 0x011803;
+		primaryColor = 0x82fc8b;
+		secondaryColor = 0x048e9c;
+		accentColor = 0x09a1f8;
+		break;
+	case 8:
+		textColor = 0xe9e6f2;
+		backgroundColor = 0x0f0d18;
+		primaryColor = 0xaca4cf;
+		secondaryColor = 0x66386a;
+		accentColor = 0xab60a2;
+		break;
+	case 9:
+		textColor = 0xfcfbe4;
+		backgroundColor = 0x0b0b01;
+		primaryColor = 0xf4ef8a;
+		secondaryColor = 0x10a187;
+		accentColor = 0x4398ed;
+		break;
+	case 10:
+		textColor = 0xe8dcf0;
+		backgroundColor = 0x130a1a;
+		primaryColor = 0xc29bdf;
+		secondaryColor = 0x55227a;
+		accentColor = 0x8f37cf;
+		break;
+	case 11:
+		textColor = 0xf3e8f0;
+		backgroundColor = 0x1a0e17;
+		primaryColor = 0xd3aac6;
+		secondaryColor = 0x75733c;
+		accentColor = 0x83ab5c;
+		break;
+	case 12:
+		textColor = 0xdae2f7;
+		backgroundColor = 0x03060d;
+		primaryColor = 0x94b2e9;
+		secondaryColor = 0x6c1e92;
+		accentColor = 0xd943d2;
+		break;
+	case 13:
+		textColor = 0xf6f1ee;
+		backgroundColor = 0x110c09;
+		primaryColor = 0xd2b5ab;
+		secondaryColor = 0x70683c;
+		accentColor = 0xb2b879;
+		break;
+	case 14:
+		textColor = 0xeee5de;
+		backgroundColor = 0x100c08;
+		primaryColor = 0xcfb5a0;
+		secondaryColor = 0x39713a;
+		accentColor = 0x66b194;
+		break;
+	case 15:
+		textColor = 0xfee1f9;
+		backgroundColor = 0x25011f;
+		primaryColor = 0xfa75e0;
+		secondaryColor = 0x980539;
+		accentColor = 0xf83862;
+		break;
+	case 16:
+		textColor = 0xfafddd;
+		backgroundColor = 0x222402;
+		primaryColor = 0xe7f67c;
+		secondaryColor = 0x0a9417;
+		accentColor = 0x28f187;
+		break;
+	}
+	style->Colors[ImGuiCol_Text]			=	 hex2rgba(textColor, 1.0f);
+	style->Colors[ImGuiCol_CheckMark]		=	 hex2rgba(textColor, 1.0f);
+	style->Colors[ImGuiCol_WindowBg]		=	 hex2rgba(backgroundColor, 1.0f);
+	style->Colors[ImGuiCol_FrameBgActive]	=	 hex2rgba(primaryColor, 0.7f);
+	style->Colors[ImGuiCol_ButtonActive]	=	 hex2rgba(primaryColor, 0.7f);
+	style->Colors[ImGuiCol_TitleBgActive]	=	 hex2rgba(secondaryColor, 1.0f);
+	style->Colors[ImGuiCol_Button]			=	 hex2rgba(secondaryColor, 1.0f);
+	style->Colors[ImGuiCol_ButtonHovered]	=	 hex2rgba(accentColor, 1.0f);
+	style->Colors[ImGuiCol_FrameBgHovered]	=	 hex2rgba(accentColor, 0.3f);
+
+	return;
+}
+
+int theme = 0;
+int themeCount = 16;
 void cheat::Render() noexcept
 {
+	ImGuiStyle* style = &ImGui::GetStyle();
+	
 	ImGui::SetNextWindowPos({ 0, 0 });
 	ImGui::SetNextWindowSize({ WIDTH, HEIGHT });
 	ImGui::Begin(
@@ -246,9 +396,30 @@ void cheat::Render() noexcept
 		ImGuiWindowFlags_NoCollapse |
 		ImGuiWindowFlags_NoMove
 	);
-
+	setTheme(theme, style);
+	if (ImGui::Button("<-")) {
+		if (theme == 0) {
+			theme = themeCount;
+		}
+		else {
+			theme--;
+		}
+	}
+	ImGui::SameLine();
+	ImGui::Text("Theme");
+	ImGui::SameLine();
+	if (ImGui::Button("->")) {
+		if (theme == themeCount) {
+			theme = 0;
+		}
+		else {
+			theme++;
+		}
+	}
+	ImGui::SameLine(); 
+	ImGui::Text(std::to_string(theme).c_str());
 	ImGui::SetNextItemWidth(100);
-	ImGui::InputInt("Update time (milliseconds)", &sleepTime);
+	ImGui::InputInt("Update interval (ms)", &sleepTime);
 	ImGui::PushItemWidth(187);
 	if (ImGui::InputInt("Money", &money, 1, 100, cheat::lockMoney ? ImGuiInputTextFlags_ReadOnly : NULL)) Write(addresses.money, money);
 	ImGui::SameLine();

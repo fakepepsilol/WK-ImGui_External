@@ -17,6 +17,7 @@ namespace cheat
 	inline long long int splashDamage;
 	inline long long int health;
 	inline long long int sleepTime = 150;
+	inline long long int theme = 0;
 
 	inline bool lockMoney = false;
 	inline bool lockStars = false;
@@ -54,7 +55,7 @@ namespace cheat
 
 
 	constexpr int WIDTH = 310;
-	constexpr int HEIGHT = 360;
+	constexpr int HEIGHT = 380;
 	inline bool isRunning = true;
 	inline HWND window = nullptr;
 	inline WNDCLASSEX windowClass = { };
