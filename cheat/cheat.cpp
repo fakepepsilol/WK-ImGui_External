@@ -89,15 +89,6 @@ int __stdcall wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstanc
     MSG msg;
     ZeroMemory(&msg, sizeof(msg));
 
-    cheat::lockMoney = false;
-    cheat::lockStars = false;
-    cheat::lockHealth = false;
-
-    cheat::startMoney = cheat::Read(cheat::addresses.money);
-    cheat::startStars = cheat::Read(cheat::addresses.stars);
-    cheat::startHealth = cheat::Read(cheat::addresses.health);
-
-
     process = GetProcess();
     long long int offset = 0;
     uintptr_t base = GetModuleAddress("windowkill-vulkan.exe");
@@ -111,7 +102,7 @@ int __stdcall wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstanc
         base = GetModuleAddress("windowkill-vulkan.exe");
         offset = getAddress(base);
         cheat::addresses.money = offset + 0x278;
-        cheat::addresses.stars = offset + 0x290; ///wqaaaaaah
+        cheat::addresses.stars = offset + 0x290;
         cheat::addresses.restockCount = offset + 0x2C0;
         cheat::addresses.speed = offset + 0x2F0;
         cheat::addresses.fireRate = offset + 0x308;
